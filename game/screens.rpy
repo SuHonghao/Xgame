@@ -6,6 +6,61 @@ init offset = -1
 
 
 ################################################################################
+## 启动画面
+################################################################################
+
+transform fade_out:
+    alpha 1.0
+    linear 0.8 alpha 0.0
+
+transform intro_video_fade:
+    alpha 1.0
+    pause 3.2
+    linear 0.8 alpha 0.0
+
+transform cover_to_video:
+    alpha 1.0
+    pause 0.15
+    linear 0.35 alpha 0.0
+
+transform intro_menu_fade:
+    alpha 0.0
+    linear 0.8 alpha 1.0
+
+screen intro_cover():
+    modal True
+    default clicked = False
+
+    if not clicked:
+        add "images/cover.png"
+
+        button:
+            xfill True
+            yfill True
+            background None
+            action SetScreenVariable("clicked", True)
+
+        add "images/click_to_enter.png":
+            xalign 0.5
+            yalign 0.82
+
+    else:
+        add Movie(
+            play="video/background.webm",
+            loop=False
+        ) at intro_video_fade
+
+        add "images/cover.png" at cover_to_video
+
+        add "images/click_to_enter.png":
+            xalign 0.5
+            yalign 0.82
+            at fade_out
+
+        timer 4 action Return()
+
+
+################################################################################
 ## 样式
 ################################################################################
 
@@ -280,50 +335,49 @@ style quick_button_text:
 
 screen navigation():
 
-    if main_menu:
+    vbox:
+        style_prefix "navigation"
+        xpos gui.navigation_xpos
+        yalign 0.5
+        spacing 16
 
-        hbox:
-            style_prefix "main_navigation"
-            xalign 0.5
-            yalign 0.5
-            box_wrap False
+        textbutton _("历史") action ShowMenu("history")
+        textbutton _("保存") action ShowMenu("save")
+        textbutton _("读取游戏") action ShowMenu("load")
+        textbutton _("设置") action ShowMenu("preferences")
 
-            textbutton _("开\n始\n游\n戏") action SetScreenVariable("start_fading", True)
-            textbutton _("读\n取\n游\n戏") action ShowMenu("load")
-            textbutton _("设\n置") action ShowMenu("preferences")
-            textbutton _("关\n于") action ShowMenu("about")
+        if _in_replay:
+            textbutton _("结束回放") action EndReplay(confirm=True)
+        else:
+            textbutton _("标题菜单") action MainMenu()
 
-            if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-                textbutton _("帮\n助") action ShowMenu("help")
+        textbutton _("关于") action ShowMenu("about")
 
-            if renpy.variant("pc"):
-                textbutton _("退\n出") action Quit(confirm=False)
+        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
+            textbutton _("帮助") action ShowMenu("help")
 
-    else:
+        if renpy.variant("pc"):
+            textbutton _("退出") action Quit(confirm=True)
 
-        vbox:
-            style_prefix "navigation"
-            xpos gui.navigation_xpos
-            yalign 0.5
-            spacing 16
 
-            textbutton _("历史") action ShowMenu("history")
-            textbutton _("保存") action ShowMenu("save")
-            textbutton _("读取游戏") action ShowMenu("load")
-            textbutton _("设置") action ShowMenu("preferences")
+screen main_menu_navigation():
 
-            if _in_replay:
-                textbutton _("结束回放") action EndReplay(confirm=True)
-            else:
-                textbutton _("标题菜单") action MainMenu()
+    hbox:
+        style_prefix "main_navigation"
+        xalign 0.5
+        yalign 0.5
+        box_wrap False
 
-            textbutton _("关于") action ShowMenu("about")
+        textbutton _("开\n始\n游\n戏") action SetScreenVariable("start_fading", True)
+        textbutton _("读\n取\n游\n戏") action ShowMenu("load")
+        textbutton _("设\n置") action ShowMenu("preferences")
+        textbutton _("关\n于") action ShowMenu("about")
 
-            if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-                textbutton _("帮助") action ShowMenu("help")
+        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
+            textbutton _("帮\n助") action ShowMenu("help")
 
-            if renpy.variant("pc"):
-                textbutton _("退出") action Quit(confirm=True)
+        if renpy.variant("pc"):
+            textbutton _("退\n出") action Quit(confirm=False)
 
 
 style navigation_button is gui_button
@@ -333,10 +387,10 @@ style navigation_button:
     size_group "navigation"
     xsize 360
     ysize 82
-    background Frame("gui/button/main_menu_idle.png", 20, 20)
-    hover_background Frame("gui/button/main_menu_hover.png", 20, 20)
-    selected_background Frame("gui/button/main_menu_selected.png", 20, 20)
-    insensitive_background Frame("gui/button/main_menu_insensitive.png", 20, 20)
+    background Frame("gui/button/idle_background.png", 20, 20)
+    hover_background Frame("gui/button/hover_background.png", 20, 20)
+    selected_background Frame("gui/button/hover_background.png", 20, 20)
+    insensitive_background Frame("gui/button/idle_background.png", 20, 20)
     properties gui.button_properties("navigation_button")
 
 style navigation_button_text:
@@ -393,7 +447,7 @@ screen main_menu():
     if start_fading:
         fixed at main_menu_fadeout:
             add gui.main_menu_background
-            use navigation
+            use main_menu_navigation
 
         timer 0.8 action Start()
 
@@ -405,7 +459,7 @@ screen main_menu():
 
         if show_main_menu_buttons:
             fixed at main_menu_buttons_fadein:
-                use navigation
+                use main_menu_navigation
 
     if gui.show_name:
 
@@ -460,75 +514,78 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
     style_prefix "game_menu"
 
-    if main_menu:
-        add gui.main_menu_background
-    else:
-        add gui.game_menu_background
+    add gui.game_menu_background
 
-    frame:
-        style "game_menu_outer_frame"
+    fixed:
+        xfill True
+        yfill True
 
-        hbox:
+        if scroll == "viewport":
 
-            ## 导航部分的预留空间。
-            frame:
-                style "game_menu_navigation_frame"
+            viewport:
+                xalign 0.5
+                yalign 0.5
+                xsize 1040
+                ysize 570
+                yinitial yinitial
+                scrollbars "vertical"
+                mousewheel True
+                draggable True
+                pagekeys True
 
-            frame:
-                style "game_menu_content_frame"
+                side_yfill True
 
-                if scroll == "viewport":
+                frame:
+                    style "submenu_card"
+                    xalign 0.5
 
-                    viewport:
-                        yinitial yinitial
-                        scrollbars "vertical"
-                        mousewheel True
-                        draggable True
-                        pagekeys True
-
-                        side_yfill True
-
-                        vbox:
-                            spacing spacing
-
-                            transclude
-
-                elif scroll == "vpgrid":
-
-                    vpgrid:
-                        cols 1
-                        yinitial yinitial
-
-                        scrollbars "vertical"
-                        mousewheel True
-                        draggable True
-                        pagekeys True
-
-                        side_yfill True
-
+                    vbox:
+                        xalign 0.5
                         spacing spacing
 
                         transclude
 
-                else:
+        elif scroll == "vpgrid":
 
-                    transclude
+            vpgrid:
+                xalign 0.5
+                yalign 0.5
+                xsize 980
+                ysize 540
+                cols 1
+                yinitial yinitial
 
-    use navigation
+                scrollbars "vertical"
+                mousewheel True
+                draggable True
+                pagekeys True
 
-    textbutton _("返回"):
-        style "return_button"
+                side_yfill True
 
+                spacing spacing
+
+                transclude
+
+        else:
+
+            transclude
+
+    imagebutton:
+        idle "images/button_return.png"
+        hover "images/button_return.png"
+        selected_idle "images/button_return.png"
+        selected_hover "images/button_return.png"
+        insensitive "images/button_return.png"
         action Return()
-
-    label title
+        xpos 20
+        ypos 20
+        focus_mask True
 
     if main_menu:
         key "game_menu" action ShowMenu("main_menu")
 
 
 style game_menu_outer_frame is empty
-style game_menu_navigation_frame is empty
 style game_menu_content_frame is empty
 style game_menu_viewport is gui_viewport
 style game_menu_side is gui_side
@@ -537,46 +594,41 @@ style game_menu_scrollbar is gui_vscrollbar
 style game_menu_label is gui_label
 style game_menu_label_text is gui_label_text
 
-style return_button is navigation_button
-style return_button_text is navigation_button_text
-
 style game_menu_outer_frame:
-    bottom_padding 30
-    top_padding 120
+    bottom_padding 0
+    top_padding 0
 
-    background "gui/overlay/game_menu.png"
-
-style game_menu_navigation_frame:
-    xsize 280
-    yfill True
+    background None
 
 style game_menu_content_frame:
-    left_margin 40
-    right_margin 20
-    top_margin 10
+    left_margin 0
+    right_margin 0
+    top_margin 0
 
 style game_menu_viewport:
-    xsize 920
+    xsize None
 
 style game_menu_vscrollbar:
     unscrollable gui.unscrollable
 
 style game_menu_side:
-    spacing 10
+    spacing 0
 
 style game_menu_label:
-    xpos 50
-    ysize 120
+    xpos 0
+    ysize 0
 
 style game_menu_label_text:
-    size 50
+    size 0
     color gui.accent_color
     yalign 0.5
 
-style return_button:
-    xpos gui.navigation_xpos
-    yalign 1.0
-    yoffset -30
+style submenu_card is empty
+style submenu_card:
+    xsize 900
+    xpadding 52
+    ypadding 38
+    background Solid("#f4ead8d9")
 
 
 ## 关于屏幕 ########################################################################
@@ -592,7 +644,7 @@ screen about():
 
     ## 此 use 语句将 game_menu 屏幕包含到了这个屏幕内。子级 vbox 将包含在
     ## game_menu 屏幕的 viewport 内。
-    use game_menu(_("关于"), scroll="viewport"):
+    use game_menu("", scroll="viewport"):
 
         style_prefix "about"
 
@@ -628,14 +680,14 @@ screen save():
 
     tag menu
 
-    use file_slots(_("保存"))
+    use file_slots("")
 
 
 screen load():
 
     tag menu
 
-    use file_slots(_("读取游戏"))
+    use file_slots("")
 
 
 screen file_slots(title):
@@ -771,81 +823,68 @@ screen preferences():
 
     tag menu
 
-    use game_menu(_("设置"), scroll="viewport"):
+    use game_menu("", scroll="viewport"):
 
-        vbox:
+        hbox:
+            xalign 0.5
+            spacing 90
 
-            hbox:
-                box_wrap True
+            vbox:
+                style "preferences_column"
+                spacing 28
 
                 if renpy.variant("pc") or renpy.variant("web"):
-
                     vbox:
                         style_prefix "radio"
-                        label _("显示")
+                        spacing 6
+                        label _("显示设置")
                         textbutton _("窗口") action Preference("display", "window")
                         textbutton _("全屏") action Preference("display", "fullscreen")
 
                 vbox:
                     style_prefix "check"
-                    label _("快进")
+                    spacing 6
+                    label _("阅读设置")
                     textbutton _("未读文本") action Preference("skip", "toggle")
                     textbutton _("选项后继续") action Preference("after choices", "toggle")
                     textbutton _("忽略转场") action InvertSelected(Preference("transitions", "toggle"))
 
-                ## 可在此处添加 radio_pref 或 check_pref 类型的额外 vbox，以添加
-                ## 额外的创建者定义的偏好设置。
-
-            null height (4 * gui.pref_spacing)
-
-            hbox:
-                style_prefix "slider"
-                box_wrap True
-
                 vbox:
-
+                    style_prefix "slider"
+                    spacing 8
                     label _("文字速度")
-
                     bar value Preference("text speed")
-
                     label _("自动前进时间")
-
                     bar value Preference("auto-forward time")
 
-                vbox:
+            vbox:
+                style "preferences_column"
+                style_prefix "slider"
+                spacing 12
 
-                    if config.has_music:
-                        label _("音乐音量")
+                label _("音频设置")
 
-                        hbox:
-                            bar value Preference("music volume")
+                if config.has_music:
+                    label _("音乐音量")
+                    bar value Preference("music volume")
 
-                    if config.has_sound:
+                if config.has_sound:
+                    label _("音效音量")
+                    bar value Preference("sound volume")
+                    if config.sample_sound:
+                        textbutton _("测试") action Play("sound", config.sample_sound)
 
-                        label _("音效音量")
+                if config.has_voice:
+                    label _("语音音量")
+                    bar value Preference("voice volume")
+                    if config.sample_voice:
+                        textbutton _("测试") action Play("voice", config.sample_voice)
 
-                        hbox:
-                            bar value Preference("sound volume")
-
-                            if config.sample_sound:
-                                textbutton _("测试") action Play("sound", config.sample_sound)
-
-
-                    if config.has_voice:
-                        label _("语音音量")
-
-                        hbox:
-                            bar value Preference("voice volume")
-
-                            if config.sample_voice:
-                                textbutton _("测试") action Play("voice", config.sample_voice)
-
-                    if config.has_music or config.has_sound or config.has_voice:
-                        null height gui.pref_spacing
-
-                        textbutton _("全部静音"):
-                            action Preference("all mute", "toggle")
-                            style "mute_all_button"
+                if config.has_music or config.has_sound or config.has_voice:
+                    null height 8
+                    textbutton _("全部静音"):
+                        action Preference("all mute", "toggle")
+                        style "mute_all_button"
 
 
 style pref_label is gui_label
@@ -882,7 +921,11 @@ style pref_label_text:
     yalign 1.0
 
 style pref_vbox:
-    xsize 225
+    xsize 340
+
+style preferences_column is vbox
+style preferences_column:
+    xsize 340
 
 style radio_vbox:
     spacing gui.pref_button_spacing
@@ -905,7 +948,7 @@ style check_button_text:
     properties gui.text_properties("check_button")
 
 style slider_slider:
-    xsize 350
+    xsize 340
 
 style slider_button:
     properties gui.button_properties("slider_button")
@@ -933,7 +976,7 @@ screen history():
     ## 避免预缓存此屏幕，因为它可能非常大。
     predict False
 
-    use game_menu(_("历史"), scroll=("vpgrid" if gui.history_height else "viewport"), yinitial=1.0, spacing=gui.history_spacing):
+    use game_menu("", scroll=("vpgrid" if gui.history_height else "viewport"), yinitial=1.0, spacing=gui.history_spacing):
 
         style_prefix "history"
 
@@ -1019,14 +1062,17 @@ screen help():
 
     default device = "keyboard"
 
-    use game_menu(_("帮助"), scroll="viewport"):
+    use game_menu("", scroll="viewport"):
 
         style_prefix "help"
 
         vbox:
-            spacing 15
+            xalign 0.5
+            spacing 24
 
             hbox:
+                xalign 0.5
+                spacing 24
 
                 textbutton _("键盘") action SetScreenVariable("device", "keyboard")
                 textbutton _("鼠标") action SetScreenVariable("device", "mouse")
@@ -1034,12 +1080,18 @@ screen help():
                 if GamepadExists():
                     textbutton _("手柄") action SetScreenVariable("device", "gamepad")
 
-            if device == "keyboard":
-                use keyboard_help
-            elif device == "mouse":
-                use mouse_help
-            elif device == "gamepad":
-                use gamepad_help
+            frame:
+                style "help_content_card"
+
+                vbox:
+                    spacing 8
+
+                    if device == "keyboard":
+                        use keyboard_help
+                    elif device == "mouse":
+                        use mouse_help
+                    elif device == "gamepad":
+                        use gamepad_help
 
 
 screen keyboard_help():
@@ -1150,22 +1202,39 @@ style help_button_text is gui_button_text
 style help_label is gui_label
 style help_label_text is gui_label_text
 style help_text is gui_text
+style help_content_card is empty
+
+style help_content_card:
+    xsize 720
+    xpadding 30
+    ypadding 22
+    background Solid("#eadbc6b3")
 
 style help_button:
     properties gui.button_properties("help_button")
+    xminimum 110
+    yminimum 44
     xmargin 8
 
 style help_button_text:
     properties gui.text_properties("help_button")
 
 style help_label:
-    xsize 250
-    right_padding 20
+    xsize 190
+    right_padding 28
 
 style help_label_text:
-    size gui.text_size
+    font "wordtype/shanhaishengtangbangshuw.ttf"
+    size 22
+    color "#b8502a"
     xalign 1.0
     textalign 1.0
+
+style help_text:
+    font "SourceHanSansLite.ttf"
+    size 20
+    color "#493e38"
+    yalign 0.5
 
 
 

@@ -112,10 +112,22 @@ label splashscreen:
 label start:
 
 
+    window hide
+
+
+    $ quick_menu = False
+
+
     scene black with fade
 
 
-    scene bg room with dissolve
+    $ renpy.movie_cutscene("video/game_intro.webm")
+
+
+    $ quick_menu = True
+
+
+    scene bg room with fade
 
 
     show eileen happy

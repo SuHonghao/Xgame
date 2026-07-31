@@ -288,7 +288,7 @@ screen navigation():
             yalign 0.5
             box_wrap False
 
-            textbutton _("开\n始\n游\n戏") action Start()
+            textbutton _("开\n始\n游\n戏") action SetScreenVariable("start_fading", True)
             textbutton _("读\n取\n游\n戏") action ShowMenu("load")
             textbutton _("设\n置") action ShowMenu("preferences")
             textbutton _("关\n于") action ShowMenu("about")
@@ -379,20 +379,33 @@ transform main_menu_buttons_fadein:
     alpha 0.0
     linear 0.6 alpha 1.0
 
+transform main_menu_fadeout:
+    alpha 1.0
+    linear 0.8 alpha 0.0
+
 screen main_menu():
 
     ## 此语句可确保替换掉任何其他菜单屏幕。
     tag menu
     default show_main_menu_buttons = False
+    default start_fading = False
 
-    add gui.main_menu_background at main_menu_background_fadein
-
-    ## 背景先淡入，之后再显示并淡入菜单按钮。
-    timer 0.8 action SetScreenVariable("show_main_menu_buttons", True)
-
-    if show_main_menu_buttons:
-        fixed at main_menu_buttons_fadein:
+    if start_fading:
+        fixed at main_menu_fadeout:
+            add gui.main_menu_background
             use navigation
+
+        timer 0.8 action Start()
+
+    else:
+        add gui.main_menu_background at main_menu_background_fadein
+
+        ## 背景先淡入，之后再显示并淡入菜单按钮。
+        timer 0.8 action SetScreenVariable("show_main_menu_buttons", True)
+
+        if show_main_menu_buttons:
+            fixed at main_menu_buttons_fadein:
+                use navigation
 
     if gui.show_name:
 

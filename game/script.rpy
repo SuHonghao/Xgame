@@ -112,7 +112,10 @@ label splashscreen:
 label start:
 
 
-    scene bg room
+    scene black with fade
+
+
+    scene bg room with dissolve
 
 
     show eileen happy

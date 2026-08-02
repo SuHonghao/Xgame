@@ -370,6 +370,7 @@ screen main_menu_navigation():
 
         textbutton _("开\n始\n游\n戏") action SetScreenVariable("start_fading", True)
         textbutton _("读\n取\n游\n戏") action ShowMenu("load")
+        textbutton _("图\n鉴") action ShowMenu("collection")
         textbutton _("设\n置") action ShowMenu("preferences")
         textbutton _("关\n于") action ShowMenu("about")
 
@@ -500,6 +501,69 @@ style main_menu_title:
 
 style main_menu_version:
     properties gui.text_properties("version")
+
+
+## 图鉴屏幕 ##########################################################################
+
+screen collection():
+
+    tag menu
+
+    use game_menu(_("图鉴")):
+
+        frame:
+            xalign 0.5
+            yalign 0.5
+            xsize 1050
+            ysize 560
+            padding (45, 40)
+            background Solid("#3B211CDD")
+
+            if persistent.unlocked_objects:
+                viewport:
+                    xfill True
+                    yfill True
+                    scrollbars "vertical"
+                    mousewheel True
+                    draggable True
+
+                    vbox:
+                        xfill True
+                        spacing 35
+
+                        for item in collection_items:
+                            if item["id"] in persistent.unlocked_objects:
+                                hbox:
+                                    xfill True
+                                    spacing 45
+
+                                    add item["image"]:
+                                        xsize 360
+                                        ysize 300
+                                        fit "contain"
+
+                                    vbox:
+                                        xsize 500
+                                        yalign 0.5
+                                        spacing 20
+
+                                        text item["name"]:
+                                            size 38
+                                            color "#E8B45B"
+
+                                        text item["description"]:
+                                            size 26
+                                            color "#F5E8D0"
+                                            line_spacing 8
+
+            else:
+                text _("图鉴目前为空。\n在故事中发现物件后，它会显示在这里。"):
+                    xalign 0.5
+                    yalign 0.5
+                    text_align 0.5
+                    size 34
+                    color "#F5E8D0"
+                    line_spacing 14
 
 
 ## 游戏菜单屏幕 ######################################################################

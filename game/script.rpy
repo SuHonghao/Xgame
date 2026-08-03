@@ -105,8 +105,8 @@ label Part2_Act1:
     hide chenjiu normal with dissolve
 
     # 解锁图鉴物品1
-    $ persistent.unlocked_objects.append("object1")
-
+    if "object1" not in persistent.unlocked_objects:
+        $ persistent.unlocked_objects.append("object1")
 
     show mother normal with dissolve
     mother "你大哥前日才典了半亩田替你还了赌债，昨晚气得得咳了一宿。你还要往外跑？"
@@ -129,8 +129,8 @@ label Part2_Act1:
     hide chenjiu normal with dissolve
 
     # 解锁图鉴物品2
-    $ persistent.unlocked_objects.append("object2")
-
+    if "object2" not in persistent.unlocked_objects:
+        $ persistent.unlocked_objects.append("object2")
 
     show mother normal with dissolve
     mother "阿母不要你还钱。阿母只要你安分守己，平平安安，别再让一家人替你担惊受怕、受人指点。"

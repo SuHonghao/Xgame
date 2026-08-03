@@ -438,6 +438,74 @@ transform main_menu_fadeout:
     alpha 1.0
     linear 0.8 alpha 0.0
 
+init python:
+    import os
+
+    def clear_all_game_data():
+        save_slots = list(renpy.list_saved_games(r".*", fast=False))
+
+        for save_info in save_slots:
+            slot_name = getattr(save_info, "slotname", None)
+            if slot_name is None:
+                slot_name = save_info[0]
+            renpy.unlink_save(slot_name)
+
+        # 同时清理本地存档文件，避免不同 Ren'Py 版本的槽位枚举遗漏存档。
+        save_directory = renpy.config.savedir
+        if save_directory and os.path.isdir(save_directory):
+            for filename in os.listdir(save_directory):
+                if filename.endswith((".save", ".save.new", ".save.bak")):
+                    try:
+                        os.remove(os.path.join(save_directory, filename))
+                    except OSError:
+                        pass
+
+        persistent.unlocked_objects = []
+        renpy.save_persistent()
+        renpy.hide_screen("clear_cache_confirm")
+        renpy.restart_interaction()
+
+
+screen clear_cache_confirm():
+
+    modal True
+    zorder 200
+
+    add Solid("#000000B3")
+
+    frame:
+        xalign 0.5
+        yalign 0.5
+        xsize 720
+        padding (45, 38)
+        background Solid("#3B211CF5")
+
+        vbox:
+            xfill True
+            spacing 30
+
+            text _("确认清空缓存？"):
+                xalign 0.5
+                size 38
+                color "#E8B45B"
+
+            text _("这将清空现在所有的存档和图鉴内容，且无法恢复。是否确认清空？"):
+                xalign 0.5
+                text_align 0.5
+                size 26
+                color "#F5E8D0"
+                line_spacing 8
+
+            hbox:
+                xalign 0.5
+                spacing 45
+
+                textbutton _("确认清空") action Function(clear_all_game_data)
+                textbutton _("取消") action Hide("clear_cache_confirm")
+
+    key "game_menu" action Hide("clear_cache_confirm")
+
+
 screen main_menu():
 
     ## 此语句可确保替换掉任何其他菜单屏幕。
@@ -462,6 +530,14 @@ screen main_menu():
             fixed at main_menu_buttons_fadein:
                 use main_menu_navigation
 
+        textbutton _("清空缓存"):
+            style "clear_cache_button"
+            xalign 1.0
+            yalign 1.0
+            xoffset -24
+            yoffset -22
+            action Show("clear_cache_confirm")
+
     if gui.show_name:
 
         vbox:
@@ -479,6 +555,18 @@ style main_menu_vbox is vbox
 style main_menu_text is gui_text
 style main_menu_title is main_menu_text
 style main_menu_version is main_menu_text
+style clear_cache_button is button
+style clear_cache_button_text is button_text
+
+style clear_cache_button:
+    padding (10, 6)
+    background None
+    hover_background Solid("#3B211C99")
+
+style clear_cache_button_text:
+    size 18
+    color "#D8C9B0AA"
+    hover_color "#F5E8D0"
 
 style main_menu_frame:
     xsize 280

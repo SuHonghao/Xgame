@@ -1,7 +1,8 @@
+"""这里定义所有的图鉴物品"""
+
 default persistent.unlocked_objects = []
 
 
-# 这里定义所有的图鉴物品
 init python:
     collection_items = [
         {

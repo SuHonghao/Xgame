@@ -1,3 +1,5 @@
+"""所有人物的表情和对应图片再此定义"""
+
 #chenjiu
 define chenjiu = Character("陈九")
 image chenjiu normal = "images/character/chenjiu/chenjiu_normal.png"

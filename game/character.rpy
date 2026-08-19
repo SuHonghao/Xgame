@@ -14,3 +14,8 @@ image mother normal = "images/character/mother_wangshi/mother_wangshi_normal.png
 define father = Character("父亲 · 陈万田")
 image father normal = "images/character/father_chenwantian/father_chenwantian_normal.png"
 
+
+# supporting characters used in the prologue
+image jiuzhixian normal = "images/character/jiuzhixian/jiuzhixian_normal.png"
+image old_shuike normal = "images/character/old_shuike/old_shuike_normal.png"
+

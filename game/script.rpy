@@ -1,4 +1,12 @@
-﻿label splashscreen:
+﻿define jiuzhixian = Character("九指仙")
+define old_shuike = Character("老水客")
+define crowd = Character("众人")
+
+define prologue_slow_dissolve = Dissolve(1.5)
+define prologue_memory_dissolve = Dissolve(2.0)
+
+
+label splashscreen:
 
     call screen intro_cover
 
@@ -16,6 +24,18 @@ label start:
 
     scene black
 
-    call Prologue_Action1
+    jump prologue
 
-    return
+
+label prologue:
+
+    window hide
+    $ quick_menu = False
+    $ bobing_choice = None
+    $ bobing_echo = None
+
+    call prologue_mansion
+    call prologue_gambling_house
+    call prologue_harbor
+    call prologue_return_home
+    jump prologue_first_choice

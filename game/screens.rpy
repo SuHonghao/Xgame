@@ -625,7 +625,8 @@ screen collection():
                                     xfill True
                                     spacing 45
 
-                                    add item["image"]:
+                                    $ collection_image = item["image"] if renpy.loadable(item["image"]) else catalog_placeholder_image
+                                    add collection_image:
                                         xsize 360
                                         ysize 300
                                         fit "contain"

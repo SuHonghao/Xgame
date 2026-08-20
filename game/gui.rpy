@@ -1,4 +1,4 @@
-﻿################################################################################
+################################################################################
 ## 初始化
 ################################################################################
 
@@ -49,17 +49,17 @@ define gui.muted_color = '#e0a366'
 define gui.hover_muted_color = '#eac199'
 
 ## 对话和菜单选择文本使用的颜色。
-define gui.text_color = '#404040'
+define gui.text_color = '#ffffff'
 define gui.interface_text_color = '#404040'
 
 
 ## 字体和字体大小 #####################################################################
 
 ## 游戏内文本使用的字体。
-define gui.text_font = "wordtype/shanhaishengtangbangshuw.ttf"
+define gui.text_font = "wordtype/思源黑体-细体.ttf"
 
 ## 角色名称使用的字体。
-define gui.name_text_font = "wordtype/shanhaishengtangbangshuw.ttf"
+define gui.name_text_font = "wordtype/南西油墨宋.ttf"
 
 ## 游戏外文本使用的字体。
 define gui.interface_text_font = "wordtype/shanhaishengtangbangshuw.ttf"
@@ -67,8 +67,11 @@ define gui.interface_text_font = "wordtype/shanhaishengtangbangshuw.ttf"
 ## 普通对话文本的大小。
 define gui.text_size = 22
 
+## 对话框中的人物名与正文统一使用此字号。
+define gui.say_text_size = 26
+
 ## 角色名称的大小。
-define gui.name_text_size = 30
+define gui.name_text_size = gui.say_text_size
 
 ## 游戏用户界面中文本的大小。
 define gui.interface_text_size = 22

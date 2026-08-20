@@ -6,14 +6,15 @@ label prologue_gambling_house:
     call cinematic_narration("只要稳下心神，用上父亲教的本事，定能翻盘获利。")
     call cinematic_narration("他折返家中，从抽屉摸出二哥留下的旧银镯子。那是亲人的念想，也是他最后的赌资。")
 
-    scene expression prologue_asset("images/background/chunfeng_casino_night.png") with prologue_slow_dissolve
+    scene expression prologue_asset("images/background/chunfeng_casino_night.png") with fade
     $ prologue_play_audio("audio/bgm/prologue_casino.ogg", channel="music", loop=True, fadein=1.0)
     $ prologue_play_audio("audio/sfx/casino_crowd.ogg", channel="sound", loop=False)
     call cinematic_narration("春风楼名义上是茶楼，实则是闽南有名的赌场。木楼里烟雾缭绕，骰子、牌九、番摊，样样齐全。")
     call cinematic_narration("赌桌的暖黄灯光照在每个赌徒脸上，像涂了一层金。陈九觉得，那是世上最好看的颜色。")
     call cinematic_narration("骰子落进瓷碗，叮叮当当。这声音，陈九从小听到大。")
 
-    scene expression prologue_asset("images/background/chen_house_morning.png", "images/background/chen_house_evening.png") with prologue_memory_dissolve
+    scene expression prologue_asset("images/background/chen_house_morning.png", "images/background/chen_house_evening.png") with fade
+
     $ prologue_play_audio("audio/bgm/prologue_memory.ogg", channel="music", loop=True, fadein=1.0)
     call cinematic_narration("牌九桌在眼前褪去，换成陈家正厅八仙桌上的大红瓷碗。")
     call cinematic_narration("那年中秋，厅中灯火通明。父亲陈万田召齐六个孩子，要他们博一个状元的彩头。")
@@ -23,7 +24,7 @@ label prologue_gambling_house:
     show expression Solid("#fff7d8") as prologue_white_flash at prologue_flash
     pause 0.55
     hide prologue_white_flash
-    scene expression prologue_asset("images/background/chunfeng_casino_night.png") with Dissolve(0.8)
+    scene expression prologue_asset("images/background/chunfeng_casino_night.png") with fade
 
     call cinematic_narration("金花的冷光一闪——正厅温情散去，春风楼的牌九桌回来了。")
     call cinematic_narration("陈九的指尖复刻着父亲教他的握法、腕劲与听声辨点。昔日读书人的雅技，如今沦为赌桌筹码。")
@@ -33,7 +34,6 @@ label prologue_gambling_house:
     $ quick_menu = True
     show chenjiu normal at portrait_left
     show jiuzhixian normal at portrait_right
-    with dissolve
     jiuzhixian "哟，九少爷来了！今日玩什么？牌九还是番摊？"
     call cinematic_narration("四面八方的目光投来。谁不知道几日前九少爷被扣在这里，最后还是他大哥来收拾残局。")
     chenjiu "牌九。大的。"
@@ -44,7 +44,7 @@ label prologue_gambling_house:
 
 label prologue_bobing_memory:
     $ quick_menu = True
-    show father normal at portrait_left with dissolve
+    show father normal at portrait_left
     father "九啊，博饼博的是个“中”字。博个状元，讨的是读书人的彩头。"
     father "咱们陈家“颍川衍派”，你几个哥哥都不爱念书，就你最聪敏。"
     father "阿爹盼你往后潜心向学，考个功名回来，光耀门楣。"
@@ -87,7 +87,7 @@ label prologue_bobing_result:
 
     call cinematic_narration("父亲把去年中秋那枚“状元插金花”的金花别在陈九衣襟上。")
     father "九啊，来年阿爹等你中个真状元。"
-    hide father normal with dissolve
+    hide father normal
     return
 
 label prologue_gambling_result:
@@ -114,7 +114,7 @@ label prologue_gambling_result:
     $ quick_menu = True
     show chenjiu normal at portrait_left
     show jiuzhixian normal at portrait_right
-    with dissolve
+   
     jiuzhixian "九少爷，今日手气不佳，运势衰竭。"
     jiuzhixian "连本带利，加上局中拆借的筹码，你一共欠春风楼四十块大洋。"
     jiuzhixian "三日之内必须还清。否则……您懂规矩。"

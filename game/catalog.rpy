@@ -1,11 +1,45 @@
 """这里定义所有的图鉴物品"""
 
 default persistent.unlocked_objects = []
+default persistent.unlocked_characters = []
 
 default catalog_placeholder_image = "images/catalog/object.png"
 
 
 init python:
+    character_collection_items = [
+        {
+            "id": "chenjiu",
+            "name": "陈九",
+            "image": "images/character/chenjiu/chenjiu_normal.png",
+            "description": "陈家九少爷，故事的主人公。",
+        },
+        {
+            "id": "mother_wangshi",
+            "name": "母亲 · 王氏",
+            "image": "images/character/mother_wangshi/mother_wangshi_normal.png",
+            "description": "陈九的母亲。",
+        },
+        {
+            "id": "father_chenwantian",
+            "name": "父亲 · 陈万田",
+            "image": "images/character/father_chenwantian/father_chenwantian_normal.png",
+            "description": "陈九的父亲。",
+        },
+        {
+            "id": "jiuzhixian",
+            "name": "九知县",
+            "image": "images/character/jiuzhixian/jiuzhixian_normal.png",
+            "description": "故事中的重要人物。",
+        },
+        {
+            "id": "old_shuike",
+            "name": "老水客",
+            "image": "images/character/old_shuike/old_shuike_normal.png",
+            "description": "往来南洋的水客。",
+        },
+    ]
+
     collection_items = [
         {
             "id": "object1",

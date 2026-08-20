@@ -11,7 +11,7 @@ init offset = -1
 
 transform fade_out:
     alpha 1.0
-    linear 0.8 alpha 0.0
+    linear 1.5 alpha 0.0
 
 transform intro_video_fade:
     alpha 1.0
@@ -149,18 +149,34 @@ style frame:
 
 screen say(who, what):
 
+    style_prefix "say"
+
+    if who is not None:
+
+        if who == "陈九":
+            window:
+                id "namebox"
+                style "say_name_window_right"
+
+                text who:
+                    id "who"
+                    style "say_label"
+        else:
+            window:
+                id "namebox"
+                style "say_name_window"
+
+                text who:
+                    id "who"
+                    style "say_label"
+
     window:
         id "window"
 
-        if who is not None:
-
-            window:
-                id "namebox"
-                style "namebox"
-                text who id "who"
-
         text what id "what"
 
+    if quick_menu:
+        use quick_menu
 
     ## 如果有对话框头像，会将其显示在文本之上。请不要在手机界面下显示这个，因为
     ## 没有空间。
@@ -173,11 +189,13 @@ init python:
     config.character_id_prefixes.append('namebox')
 
 style window is default
+style say_name_window is default
+style say_name_window_right is default
 style say_label is default
 style say_dialogue is default
 style say_thought is say_dialogue
 
-style namebox is default
+style namebox is say_name_window
 style namebox_label is say_label
 
 
@@ -187,29 +205,58 @@ style window:
     yalign gui.textbox_yalign
     ysize gui.textbox_height
 
-    background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
+    background Transform(
+        Image("gui/textbox.png", xalign=0.5, yalign=1.0),
+        yoffset=8
+    )
 
-style namebox:
-    xpos gui.name_xpos
-    xanchor gui.name_xalign
-    xsize gui.namebox_width
-    ypos gui.name_ypos
-    ysize gui.namebox_height
+style say_name_window:
+    xpos (gui.dialogue_xpos - 55)
+    ypos (config.screen_height - gui.textbox_height - 88)
+    xminimum 220
+    xmaximum 480
+    yminimum 91
+    xanchor 0.0
 
-    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
-    padding gui.namebox_borders.padding
+    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile)
+    left_padding 30
+    right_padding 30
+    top_padding 20
+    bottom_padding 20
+
+style say_name_window_right:
+    xpos (config.screen_width - (gui.dialogue_xpos - 55))
+    ypos (config.screen_height - gui.textbox_height - 88)
+    xminimum 220
+    xmaximum 480
+    yminimum 91
+    xanchor 1.0
+
+    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile)
+    left_padding 30
+    right_padding 30
+    top_padding 20
+    bottom_padding 20
 
 style say_label:
-    properties gui.text_properties("name", accent=True)
-    xalign gui.name_xalign
+    properties gui.text_properties("dialogue")
+    font gui.name_text_font
+    size gui.say_text_size
+    color gui.text_color
+    xalign 0.5
     yalign 0.5
+    text_align 0.5
+    yoffset 10
 
 style say_dialogue:
     properties gui.text_properties("dialogue")
+    font gui.text_font
+    size gui.say_text_size
+    color gui.text_color
 
     xpos gui.dialogue_xpos
     xsize gui.dialogue_width
-    ypos gui.dialogue_ypos
+    yalign 0.38
 
     adjust_spacing False
 
@@ -362,23 +409,53 @@ screen navigation():
 
 screen main_menu_navigation():
 
-    hbox:
-        style_prefix "main_navigation"
-        xalign 0.5
-        yalign 0.5
-        box_wrap False
+    imagebutton:
+        idle "images/main_menu/main_menu_character.png"
+        focus_mask True
+        at main_menu_button_hover
+        action ShowMenu("character_collection")
 
-        textbutton _("开\n始\n游\n戏") action SetScreenVariable("start_fading", True)
-        textbutton _("读\n取\n游\n戏") action ShowMenu("load")
-        textbutton _("图\n鉴") action ShowMenu("collection")
-        textbutton _("设\n置") action ShowMenu("preferences")
-        textbutton _("关\n于") action ShowMenu("about")
+    imagebutton:
+        idle "images/main_menu/main_menu_object.png"
+        focus_mask True
+        at main_menu_button_hover
+        action ShowMenu("collection")
 
-        if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
-            textbutton _("帮\n助") action ShowMenu("help")
+    imagebutton:
+        idle "images/main_menu/main_menu_start.png"
+        focus_mask True
+        at main_menu_button_hover
+        action Start()
 
-        if renpy.variant("pc"):
-            textbutton _("退\n出") action Quit(confirm=False)
+    imagebutton:
+        idle "images/main_menu/main_menu_progress.png"
+        focus_mask True
+        at main_menu_button_hover
+        action ShowMenu("load")
+
+    imagebutton:
+        idle "images/main_menu/main_menu_setting.png"
+        focus_mask True
+        at main_menu_button_hover
+        action ShowMenu("preferences")
+
+    imagebutton:
+        idle "images/main_menu/main_menu_about.png"
+        focus_mask True
+        at main_menu_button_hover
+        action ShowMenu("about")
+
+    imagebutton:
+        idle "images/main_menu/main_menu_help.png"
+        focus_mask True
+        at main_menu_button_hover
+        action ShowMenu("help")
+
+    imagebutton:
+        idle "images/main_menu/main_menu_exit.png"
+        focus_mask True
+        at main_menu_button_hover
+        action Quit(confirm=True)
 
 
 style navigation_button is gui_button
@@ -407,10 +484,10 @@ style main_navigation_button:
     xsize 150
     ysize 440
     xmargin 28
-    background Frame("gui/button/main_menu_idle.png", 20, 20)
-    hover_background Frame("gui/button/main_menu_hover.png", 20, 20)
-    selected_background Frame("gui/button/main_menu_selected.png", 20, 20)
-    insensitive_background Frame("gui/button/main_menu_insensitive.png", 20, 20)
+    background Image("gui/main_menu_button.png", xsize=150, ysize=440)
+    hover_background Image("gui/main_menu_button.png", xsize=150, ysize=440)
+    selected_background Image("gui/main_menu_button.png", xsize=150, ysize=440)
+    insensitive_background Image("gui/main_menu_button.png", xsize=150, ysize=440)
 
 style main_navigation_button_text:
     xalign 0.5
@@ -438,6 +515,18 @@ transform main_menu_fadeout:
     alpha 1.0
     linear 0.8 alpha 0.0
 
+transform main_menu_button_hover:
+    on idle:
+        ease 0.18 zoom 1.0
+    on hover:
+        ease 0.18 zoom 1.03
+
+transform return_button_hover:
+    on idle:
+        ease 0.18 zoom 0.4
+    on hover:
+        ease 0.18 zoom 0.4
+
 init python:
     import os
 
@@ -461,6 +550,7 @@ init python:
                         pass
 
         persistent.unlocked_objects = []
+        persistent.unlocked_characters = []
         renpy.save_persistent()
         renpy.hide_screen("clear_cache_confirm")
         renpy.restart_interaction()
@@ -510,44 +600,10 @@ screen main_menu():
 
     ## 此语句可确保替换掉任何其他菜单屏幕。
     tag menu
-    default show_main_menu_buttons = False
-    default start_fading = False
 
-    if start_fading:
-        fixed at main_menu_fadeout:
-            add gui.main_menu_background
-            use main_menu_navigation
+    add "images/main_menu/main_menu_background.png"
 
-        timer 0.8 action Start()
-
-    else:
-        add gui.main_menu_background at main_menu_background_fadein
-
-        ## 背景先淡入，之后再显示并淡入菜单按钮。
-        timer 0.8 action SetScreenVariable("show_main_menu_buttons", True)
-
-        if show_main_menu_buttons:
-            fixed at main_menu_buttons_fadein:
-                use main_menu_navigation
-
-        textbutton _("清空缓存"):
-            style "clear_cache_button"
-            xalign 1.0
-            yalign 1.0
-            xoffset -24
-            yoffset -22
-            action Show("clear_cache_confirm")
-
-    if gui.show_name:
-
-        vbox:
-            style "main_menu_vbox"
-
-            text "[config.name!t]":
-                style "main_menu_title"
-
-            text "[config.version]":
-                style "main_menu_version"
+    use main_menu_navigation
 
 
 style main_menu_frame is empty
@@ -589,6 +645,70 @@ style main_menu_title:
 
 style main_menu_version:
     properties gui.text_properties("version")
+
+
+## 人物图鉴屏幕 ######################################################################
+
+screen character_collection():
+
+    tag menu
+
+    use game_menu(_("人物图鉴")):
+
+        frame:
+            xalign 0.5
+            yalign 0.5
+            xsize 1050
+            ysize 560
+            padding (45, 40)
+            background Solid("#3B211CDD")
+
+            if persistent.unlocked_characters:
+                viewport:
+                    xfill True
+                    yfill True
+                    scrollbars "vertical"
+                    mousewheel True
+                    draggable True
+
+                    vbox:
+                        xfill True
+                        spacing 35
+
+                        for item in character_collection_items:
+                            if item["id"] in persistent.unlocked_characters:
+                                hbox:
+                                    xfill True
+                                    spacing 45
+
+                                    $ character_image = item["image"] if renpy.loadable(item["image"]) else catalog_placeholder_image
+                                    add character_image:
+                                        xsize 360
+                                        ysize 300
+                                        fit "contain"
+
+                                    vbox:
+                                        xsize 500
+                                        yalign 0.5
+                                        spacing 20
+
+                                        text item["name"]:
+                                            size 38
+                                            color "#E8B45B"
+
+                                        text item["description"]:
+                                            size 26
+                                            color "#F5E8D0"
+                                            line_spacing 8
+
+            else:
+                text _("人物图鉴目前为空。\\n在故事中遇见人物后，他们会显示在这里。"):
+                    xalign 0.5
+                    yalign 0.5
+                    text_align 0.5
+                    size 34
+                    color "#F5E8D0"
+                    line_spacing 14
 
 
 ## 图鉴屏幕 ##########################################################################
@@ -730,9 +850,10 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
         selected_hover "images/button_return.png"
         insensitive "images/button_return.png"
         action Return()
-        xpos 20
-        ypos 20
+        xpos 1
+        ypos 1
         focus_mask True
+        at return_button_hover
 
     if main_menu:
         key "game_menu" action ShowMenu("main_menu")

@@ -9,7 +9,7 @@ label prologue_harbor:
     call cinematic_narration("陈九胸口发闷。四十块大洋，三日。他这辈子都还不出来。")
 
     $ quick_menu = True
-    show old_shuike normal at portrait_left with dissolve
+    show old_shuike normal at portrait_left
     old_shuike "九少爷？又输了一夜？"
     old_shuike "你阿兄替你擦屁股，还得擦到哪一年？"
     chenjiu "阿叔……您就别损了。"
@@ -17,7 +17,7 @@ label prologue_harbor:
     old_shuike "再这样，不如过番去。做工、开矿、种橡胶——在老家活不下去的，过番总能搏条活路。"
     old_shuike "同安叶亚来当年也是穷得叮当响去了马来亚，后来做了吉隆坡的甲必丹。"
     old_shuike "哪像你，空顶着读书少爷的名头，不思进取，败光家业、丢尽陈家的脸面。"
-    hide old_shuike normal with dissolve
+    hide old_shuike normal
 
     call screen culture_note("叶亚来", "马来西亚华商叶亚来（1837—1885），同安人。下南洋后成为吉隆坡华人甲必丹，招募华工垦殖开矿，为吉隆坡发展奠定基础。", "历史", "history_yap_ah_loy")
 
@@ -28,7 +28,7 @@ label prologue_harbor:
     return
 
 label prologue_return_home:
-    scene expression prologue_asset("images/background/chen_mansion_courtyard_dawn.png", "images/background/chen_house_evening.png") with prologue_slow_dissolve
+    scene expression prologue_asset("images/background/chen_mansion_courtyard_dawn.png", "images/background/chen_house_evening.png") with fade
     $ prologue_play_audio("audio/bgm/prologue_choice.ogg", channel="music", loop=True, fadein=1.0)
     call cinematic_narration("回到陈家大厝，陈九想向母亲坦白三块大洋输光的事，话到嘴边却怎么也说不出口。")
     call cinematic_narration("他不断想起大哥来赌场赎他时的震怒，也想起母亲临走时哀切的眼神。")
@@ -55,7 +55,7 @@ label route_one_start:
     jump line1_start
 
 label route_two_start:
-    scene black with fade
+    scene black
     call cinematic_narration("【线二 · 水客信义】")
     call cinematic_narration("陈九决定向家人坦白。大哥震怒之后，要他下南洋投奔槟城的亲戚。")
     call cinematic_narration("线二后续剧情尚待接入。")

@@ -30,11 +30,9 @@ label prologue_mansion:
 
     hide chenjiu normal
     show mother normal at portrait_left
-    pause 0.4
     mother "你每回都这么说。"
     call cinematic_narration("王氏终于缓缓抬头，眼里含泪。她从袖中摸出一个红布包，搁在膝上。")
     mother "这是阿母攒了半年的私房，三块大洋。原是……是留着给你娶媳妇的。"
-    pause 0.5
     mother "前日你刚欠了债被赌场扣着，是你大哥去赎的。"
     mother "阿母晓得你面皮薄，怕你在外被人奚落，又偷偷赊账惹事。"
     mother "你拿去身上揣着，不是让你赌，是让你手头宽裕，莫再低头求人、重蹈覆辙。"

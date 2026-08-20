@@ -3,7 +3,7 @@
 #chenjiu
 define chenjiu = Character("陈九")
 image chenjiu normal = "images/character/chenjiu/chenjiu_normal.png"
-
+image chenjiu embarrassed = "images/character/chenjiu/chenjiu_embarrassed.png"
 
 #mother
 define mother = Character("母亲 · 王氏")

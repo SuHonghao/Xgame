@@ -147,28 +147,27 @@ style frame:
 ##
 ## https://doc.renpy.cn/zh-CN/screen_special.html#say
 
+default say_layout = "left"
+
 screen say(who, what):
 
     style_prefix "say"
 
     if who is not None:
 
-        if who == "陈九":
-            window:
-                id "namebox"
-                style "say_name_window_right"
+        window:
+            id "namebox"
 
-                text who:
-                    id "who"
-                    style "say_label"
-        else:
-            window:
-                id "namebox"
+            if say_layout == "center":
+                style "say_name_window_center"
+            elif say_layout == "right" or who == "陈九":
+                style "say_name_window_right"
+            else:
                 style "say_name_window"
 
-                text who:
-                    id "who"
-                    style "say_label"
+            text who:
+                id "who"
+                style "say_label"
 
     window:
         id "window"
@@ -181,7 +180,12 @@ screen say(who, what):
     ## 如果有对话框头像，会将其显示在文本之上。请不要在手机界面下显示这个，因为
     ## 没有空间。
     if not renpy.variant("small"):
-        add SideImage() xalign 0.0 yalign 1.0
+        if say_layout == "center":
+            add SideImage() xalign 0.5 yalign 1.0
+        elif say_layout == "right" or who == "陈九":
+            add SideImage() xalign 1.0 yalign 1.0
+        else:
+            add SideImage() xalign 0.0 yalign 1.0
 
 
 ## 通过 Character 对象使名称框可用于样式化。
@@ -191,6 +195,7 @@ init python:
 style window is default
 style say_name_window is default
 style say_name_window_right is default
+style say_name_window_center is default
 style say_label is default
 style say_dialogue is default
 style say_thought is say_dialogue
@@ -247,6 +252,20 @@ style say_label:
     yalign 0.5
     text_align 0.5
     yoffset 10
+
+style say_name_window_center:
+    xpos (gui.dialogue_xpos - 55)
+    ypos (config.screen_height - gui.textbox_height - 88)
+    xminimum 220
+    xmaximum 480
+    yminimum 91
+    xanchor 0.0
+
+    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile)
+    left_padding 30
+    right_padding 30
+    top_padding 20
+    bottom_padding 20
 
 style say_dialogue:
     properties gui.text_properties("dialogue")

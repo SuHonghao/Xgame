@@ -6,14 +6,14 @@ label prologue_gambling_house:
     call cinematic_narration("只要稳下心神，用上父亲教的本事，定能翻盘获利。")
     call cinematic_narration("他折返家中，从抽屉摸出二哥留下的旧银镯子。那是亲人的念想，也是他最后的赌资。")
 
-    scene expression prologue_asset("images/background/chunfeng_casino_night.png") with fade
+    scene expression prologue_bg("images/background/chunfeng_casino_night.png") with fade
     $ prologue_play_audio("audio/bgm/prologue_casino.ogg", channel="music", loop=True, fadein=1.0)
     $ prologue_play_audio("audio/sfx/casino_crowd.ogg", channel="sound", loop=False)
     call cinematic_narration("春风楼名义上是茶楼，实则是闽南有名的赌场。木楼里烟雾缭绕，骰子、牌九、番摊，样样齐全。")
     call cinematic_narration("赌桌的暖黄灯光照在每个赌徒脸上，像涂了一层金。陈九觉得，那是世上最好看的颜色。")
     call cinematic_narration("骰子落进瓷碗，叮叮当当。这声音，陈九从小听到大。")
 
-    scene expression prologue_asset("images/background/chen_house_morning.png", "images/background/chen_house_evening.png") with fade
+    scene expression prologue_bg("images/background/chen_house_morning.png", "images/background/chen_house_evening.png") with fade
 
     $ prologue_play_audio("audio/bgm/prologue_memory.ogg", channel="music", loop=True, fadein=1.0)
     call cinematic_narration("牌九桌在眼前褪去，换成陈家正厅八仙桌上的大红瓷碗。")
@@ -24,7 +24,7 @@ label prologue_gambling_house:
     show expression Solid("#fff7d8") as prologue_white_flash at prologue_flash
     pause 0.55
     hide prologue_white_flash
-    scene expression prologue_asset("images/background/chunfeng_casino_night.png") with fade
+    scene expression prologue_bg("images/background/chunfeng_casino_night.png") with fade
 
     call cinematic_narration("金花的冷光一闪——正厅温情散去，春风楼的牌九桌回来了。")
     call cinematic_narration("陈九的指尖复刻着父亲教他的握法、腕劲与听声辨点。昔日读书人的雅技，如今沦为赌桌筹码。")
@@ -105,7 +105,7 @@ label prologue_gambling_result:
         call cinematic_narration("心浮气躁，连一秀都守不住。")
         call cinematic_narration("他如今，连一秀的福分也赌光了。")
 
-    scene expression prologue_asset("images/background/chunfeng_house_dawn.png", "images/background/chunfeng_casino_night.png") with prologue_slow_dissolve
+    scene expression prologue_bg("images/background/chunfeng_house_dawn.png", "images/background/chunfeng_casino_night.png") with prologue_slow_dissolve
     $ prologue_play_audio("audio/bgm/prologue_despair.ogg", channel="music", loop=True, fadein=1.0)
     call cinematic_narration("天将破晓。赌场渐渐冷清，赌徒尽数散去，只剩陈九僵坐在桌前。")
     call cinematic_narration("母亲的三块大洋、二哥的银镯子，尽数输得一干二净。长衫被冷汗浸透，刺骨冰凉。")

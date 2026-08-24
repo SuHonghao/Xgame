@@ -7,6 +7,16 @@ init python:
             return path
         return fallback
 
+    def prologue_bg(path, fallback="images/background/2.png"):
+        if not renpy.loadable(path):
+            path = fallback
+        return Transform(path, fit="cover", xysize=(config.screen_width, config.screen_height))
+
+    def prologue_sprite(path, fallback="images/character/chenjiu/chenjiu_normal.png"):
+        if not renpy.loadable(path):
+            path = fallback
+        return Transform(path, ysize=config.screen_height, yalign=1.0)
+
     def prologue_play_audio(path, channel="sound", loop=False, fadein=0.0):
         if renpy.loadable(path):
             renpy.music.play(path, channel=channel, loop=loop, fadein=fadein)

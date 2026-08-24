@@ -26,8 +26,8 @@ label line1_start:
     jump line1_act1
 
 label line1_act1:
-    scene expression prologue_asset("images/line1/bg/huangsan_office.png", "images/background/chen_house_evening.png") with prologue_slow_dissolve
-    show expression prologue_asset("images/character/huangsanye/huangsan_normal.png", "images/character/jiuzhixian/jiuzhixian_normal.png") as line1_huangsan at portrait_right with dissolve
+    scene expression prologue_bg("images/line1/bg/huangsan_office.png", "images/background/chen_house_evening.png") with prologue_slow_dissolve
+    show expression prologue_sprite("images/character/huangsanye/huangsan_normal.png", "images/character/jiuzhixian/jiuzhixian_normal.png") as line1_huangsan at portrait_right with dissolve
     call cinematic_narration("【线一 · 橡胶逆袭】")
     call cinematic_narration("旁白1")
     call cinematic_narration("旁白2")
@@ -48,7 +48,7 @@ label line1_act1:
     huang_sanye "九少爷只需按个手印，这事便了了。"
 
     hide line1_huangsan with dissolve
-    scene expression prologue_asset("images/line1/cg/blood_contract.png", "images/line1/bg/huangsan_office.png") with dissolve
+    scene expression prologue_bg("images/line1/cg/blood_contract.png", "images/line1/bg/huangsan_office.png") with dissolve
     call cinematic_narration("旁白3")
     call screen line1_danger_warning("危A · 按手印，还是翻脸")
 
@@ -76,7 +76,7 @@ label line1_danger_a_sign:
     pause 0.4
     scene black with Dissolve(0.4)
     call cinematic_narration("旁白5")
-    scene expression prologue_asset("images/line1/bg/dark_room.png") with fade
+    scene expression prologue_bg("images/line1/bg/dark_room.png") with fade
     call cinematic_narration("旁白6")
     call screen culture_note("契约华工", "鸦片战争后，东南沿海出现契约华工贸易。厦门在十九世纪中叶曾是苦力贸易的重要中心之一。华工常被欺骗签约，远赴海外从事长期苦役。", "历史", "history_indentured_labor")
     jump line1_act2
@@ -104,12 +104,12 @@ label line1_danger_a_escape:
     return
 
 label line1_act2:
-    scene expression prologue_asset("images/line1/bg/xiamen_port.png", "images/background/xixi_wharf_dawn.png") with prologue_slow_dissolve
+    scene expression prologue_bg("images/line1/bg/xiamen_port.png", "images/background/xixi_wharf_dawn.png") with prologue_slow_dissolve
     call cinematic_narration("【幕二 · 厦门港 · 过番】")
     call cinematic_narration("旁白11")
     call cinematic_narration("旁白12")
 
-    scene expression prologue_asset("images/line1/bg/ship_cabin.png", "images/line1/bg/dark_room.png") with fade
+    scene expression prologue_bg("images/line1/bg/ship_cabin.png", "images/line1/bg/dark_room.png") with fade
     call cinematic_narration("旁白13")
     call cinematic_narration("旁白14")
     with vpunch
@@ -117,8 +117,8 @@ label line1_act2:
     call cinematic_narration("旁白15")
 
     $ quick_menu = True
-    show expression prologue_asset("images/character/afu/afu_sick.png", "images/character/chenjiu/chenjiu_normal.png") as line1_afu at portrait_left
-    show expression prologue_asset("images/character/npc/old_sailor_normal.png", "images/character/old_shuike/old_shuike_normal.png") as line1_old_sailor at portrait_right
+    show expression prologue_sprite("images/character/afu/afu_sick.png", "images/character/chenjiu/chenjiu_normal.png") as line1_afu at portrait_left
+    show expression prologue_sprite("images/character/npc/old_sailor_normal.png", "images/character/old_shuike/old_shuike_normal.png") as line1_old_sailor at portrait_right
     with dissolve
     young_afu "阿兄，我们……我们这是要去哪里？"
     chenjiu "马来亚。橡胶园。"
@@ -175,7 +175,7 @@ label line1_danger_b_endure:
     jump line1_ship_choice
 
 label line1_ship_choice:
-    scene expression prologue_asset("images/background/coolie_ship_storm.png", "images/line1/bg/ship_cabin.png") with Dissolve(1.0)
+    scene expression prologue_bg("images/background/coolie_ship_storm.png", "images/line1/bg/ship_cabin.png") with Dissolve(1.0)
     with vpunch
     call cinematic_narration("旁白22")
     call cinematic_narration("旁白23")
@@ -214,7 +214,7 @@ label line1_ship_song:
     jump line1_act3
 
 label line1_act3:
-    scene expression prologue_asset("images/line1/bg/rubber_forest_day.png", "images/background/chen_house_morning.png") with prologue_memory_dissolve
+    scene expression prologue_bg("images/line1/bg/rubber_forest_day.png", "images/background/chen_house_morning.png") with prologue_memory_dissolve
     call cinematic_narration("【幕三 · 马来亚橡胶园 · 苦工】")
     call cinematic_narration("旁白27")
 
@@ -226,7 +226,7 @@ label line1_act3:
         call cinematic_narration("海上那五日，我什么都没偷。偷了，就不是我阿母要的那个九了。")
 
     if afu_alive:
-        show expression prologue_asset("images/character/afu/afu_sick.png", "images/character/chenjiu/chenjiu_normal.png") as line1_afu at portrait_left with dissolve
+        show expression prologue_sprite("images/character/afu/afu_sick.png", "images/character/chenjiu/chenjiu_normal.png") as line1_afu at portrait_left with dissolve
         afu "九哥……我跟着你。"
         call cinematic_narration("旁白29")
         hide line1_afu with dissolve
@@ -241,7 +241,7 @@ label line1_act3:
     call screen culture_note("马来亚橡胶", "橡胶原产南美，十九世纪末在马来亚试种成功。华侨参与种植、制造和贸易，推动橡胶业成为当地重要产业。", "历史", "history_malayan_rubber")
 
     $ quick_menu = True
-    show expression prologue_asset("images/character/lintoujia/lintoujia_normal.png", "images/character/jiuzhixian/jiuzhixian_normal.png") as line1_lintoujia at portrait_right with dissolve
+    show expression prologue_sprite("images/character/lintoujia/lintoujia_normal.png", "images/character/jiuzhixian/jiuzhixian_normal.png") as line1_lintoujia at portrait_right with dissolve
     lin_toujia "你这般割法，树皮都烂了！"
     lin_toujia "这棵树废了，你知道一棵橡胶树值多少钱吗？"
     chenjiu "头家，我手生……"
@@ -250,15 +250,15 @@ label line1_act3:
     call cinematic_narration("旁白33")
     hide line1_lintoujia with dissolve
 
-    scene expression prologue_asset("images/line1/bg/worker_dorm_night.png", "images/line1/bg/rubber_forest_day.png") with dissolve
+    scene expression prologue_bg("images/line1/bg/worker_dorm_night.png", "images/line1/bg/rubber_forest_day.png") with dissolve
     call cinematic_narration("旁白34")
     show expression prologue_asset("images/line1/props/piggy_token.png", "images/line1/props/rubber_knife.png") as line1_prop at truecenter with dissolve
     call cinematic_narration("旁白35")
     hide line1_prop with dissolve
 
-    scene expression prologue_asset("images/line1/bg/opium_den.png", "images/line1/bg/worker_dorm_night.png") with prologue_slow_dissolve
+    scene expression prologue_bg("images/line1/bg/opium_den.png", "images/line1/bg/worker_dorm_night.png") with prologue_slow_dissolve
     call cinematic_narration("旁白36")
-    show expression prologue_asset("images/character/npc/old_worker_normal.png", "images/character/old_shuike/old_shuike_normal.png") as line1_old_worker at portrait_right with dissolve
+    show expression prologue_sprite("images/character/npc/old_worker_normal.png", "images/character/old_shuike/old_shuike_normal.png") as line1_old_worker at portrait_right with dissolve
     old_worker "后生仔，抽一口，身上就不疼了。"
     hide line1_old_worker with dissolve
     call cinematic_narration("烟香甜腻。赊账也行。林头家从不拦。")

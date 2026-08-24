@@ -1,6 +1,6 @@
 label prologue_harbor:
     $ quick_menu = False
-    scene expression prologue_asset("images/background/xixi_wharf_dawn.png") with fade
+    scene expression prologue_bg("images/background/xixi_wharf_dawn.png") with fade
     $ prologue_play_audio("audio/bgm/prologue_harbor.ogg", channel="music", loop=True, fadein=1.0)
     $ prologue_play_audio("audio/sfx/harbor_water.ogg", channel="sound", loop=False)
     call cinematic_narration("陈九忘了自己怎样走上同安街，又怎样走到西溪码头。晨雾未散，码头已聚满出洋的人。")
@@ -28,7 +28,7 @@ label prologue_harbor:
     return
 
 label prologue_return_home:
-    scene expression prologue_asset("images/background/chen_mansion_courtyard_dawn.png", "images/background/chen_house_evening.png") with fade
+    scene expression prologue_bg("images/background/chen_mansion_courtyard_dawn.png", "images/background/chen_house_evening.png") with fade
     $ prologue_play_audio("audio/bgm/prologue_choice.ogg", channel="music", loop=True, fadein=1.0)
     call cinematic_narration("回到陈家大厝，陈九想向母亲坦白三块大洋输光的事，话到嘴边却怎么也说不出口。")
     call cinematic_narration("他不断想起大哥来赌场赎他时的震怒，也想起母亲临走时哀切的眼神。")

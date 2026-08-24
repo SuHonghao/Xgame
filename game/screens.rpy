@@ -149,6 +149,10 @@ style frame:
 
 default say_layout = "left"
 
+init python:
+    if 'front' not in config.layers:
+        config.layers = [ 'master', 'transient', 'screens', 'front', 'overlay' ]
+
 screen say(who, what):
 
     style_prefix "say"
@@ -160,7 +164,7 @@ screen say(who, what):
 
             if say_layout == "center":
                 style "say_name_window_center"
-            elif say_layout == "right" or who == "陈九":
+            elif say_layout == "right":
                 style "say_name_window_right"
             else:
                 style "say_name_window"
@@ -182,7 +186,7 @@ screen say(who, what):
     if not renpy.variant("small"):
         if say_layout == "center":
             add SideImage() xalign 0.5 yalign 1.0
-        elif say_layout == "right" or who == "陈九":
+        elif say_layout == "right":
             add SideImage() xalign 1.0 yalign 1.0
         else:
             add SideImage() xalign 0.0 yalign 1.0

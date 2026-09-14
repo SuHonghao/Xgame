@@ -919,7 +919,7 @@ translate None strings:
 
     # renpy/common/00iap.rpy:231
     old "Contacting App Store\nPlease Wait..."
-    new "正在连接 App Store\n请稍后……"
+    new "正在连接 App Store\n请稍后......"
 
     # renpy/common/00updater.rpy:415
     old "No update methods found."

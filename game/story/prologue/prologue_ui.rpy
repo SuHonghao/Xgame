@@ -89,7 +89,7 @@ screen bobing_rules():
 
             viewport:
                 xfill True
-                ysize 470
+                ysize 390
                 mousewheel True
                 draggable True
                 scrollbars "vertical"
@@ -98,21 +98,25 @@ screen bobing_rules():
                     xfill True
                     spacing 8
 
-                    text "状元插金花：4个四 + 2个一"
-                    text "六博红：6个四"
-                    text "遍地锦：6个一"
-                    text "五红：5个四"
-                    text "五子带一秀：5个同点 + 1个四"
-                    text "四点红：4个四"
-                    text "六博黑：二、三、五、六某一点六骰相同"
-                    text "对堂：1、2、3、4、5、6"
-                    text "三红：3个四"
-                    text "四进带二举"
-                    text "四进带一秀"
-                    text "四进"
-                    text "二举：2个四"
-                    text "一秀：1个四"
-                    text "罚黑：其余结果"
+                    text "{color=#000000}{b}状元插金花：{/b}4个四 + 2个一{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}六博红：{/b}6个四{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}遍地锦：{/b}6个一{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}五红：{/b}5个四{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}五子带一秀：{/b}5个同点 + 1个四{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}四点红：{/b}4个四{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}六博黑：{/b}二、三、五、六某一点六骰相同{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}对堂：{/b}1、2、3、4、5、6{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}三红：{/b}3个四{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}四进带二举{/b}{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}四进带一秀{/b}{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}四进{/b}{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}二举：{/b}2个四{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}一秀：{/b}1个四{/color}" xalign 0.5 text_align 0.5
+                    text "{color=#000000}{b}罚黑：{/b}其余结果{/color}" xalign 0.5 text_align 0.5
+
+            textbutton "查看百度百科：中秋节（中秋博饼）":
+                xalign 0.5
+                action OpenURL("https://baike.baidu.com/item/%E4%B8%AD%E7%A7%8B%E8%8A%82%EF%BC%88%E4%B8%AD%E7%A7%8B%E5%8D%9A%E9%A5%BC%EF%BC%89/49930019")
 
             textbutton "返回":
                 xalign 0.5

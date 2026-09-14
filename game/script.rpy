@@ -34,8 +34,8 @@ label prologue:
     $ bobing_choice = None
     $ bobing_echo = None
 
-    call prologue_mansion
-    call prologue_gambling_house
-    call prologue_harbor
-    call prologue_return_home
-    jump prologue_first_choice
+    call prologue_mansion from _call_prologue_mansion
+    call prologue_gambling_house from _call_prologue_gambling_house
+    call prologue_harbor from _call_prologue_harbor
+    call prologue_return_home from _call_prologue_return_home
+    return

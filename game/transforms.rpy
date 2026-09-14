@@ -19,5 +19,10 @@ transform center:
     yalign 1.0
 
 transform lower_left:
+    crop_relative True
+    crop (0.0, 0.0, 1.0, 0.60)
+    xsize 400
+    fit "contain"
     xalign 0.0
+    xoffset -80
     yalign 1.0

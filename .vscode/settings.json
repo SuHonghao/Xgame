@@ -4,5 +4,8 @@
         "**/*.rpa": true,
         "**/*.rpymc": true,
         "**/cache/": true
-    }
+    },
+
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000
 }
